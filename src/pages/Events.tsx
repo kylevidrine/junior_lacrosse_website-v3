@@ -7,13 +7,13 @@ const Events: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/data/events.json')
+    fetch('https://admin.robosouthla.com/api/events')
       .then((res) => {
         if (!res.ok) throw new Error(`Failed to load events (${res.status})`);
         return res.json();
       })
-      .then((data: Event[]) => {
-        setUpcomingEvents(data);
+      .then((data: any) => {
+        setUpcomingEvents(data.data);
         setIsLoading(false);
       })
       .catch((err) => {
