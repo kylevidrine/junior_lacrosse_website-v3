@@ -11,35 +11,26 @@ const Gallery: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'flyers' | 'photos'>('flyers');
   const [flyers, setFlyers] = useState<Flyer[]>([]);
 
-  useEffect(() => {
-    const today = new Date().toISOString().slice(0, 10);
+useEffect(() => {
+    const today = new Date();
 
-    Promise.allSettled([
-      fetch('/data/flyers.json').then((r) => r.json() as Promise<Flyer[]>),
-      fetch('/api/drop-flyers').then((r) => r.json() as Promise<Flyer[]>),
-    ]).then(([galleryRes, dropRes]) => {
-      const galleryFlyers: Flyer[] = galleryRes.status === 'fulfilled' ? galleryRes.value : [];
-      const dropFlyers: Flyer[]   = dropRes.status   === 'fulfilled' ? dropRes.value   : [];
+    fetch('https://admin.robosouthla.com/api/flyers?populate=*&filters[active][$eq]=true')
+      .then(res => res.json())
+      .then(data => {
+        const filtered = data.data.filter((f: any) => {
+          if (!f.expiresDate) return true;
+          return new Date(f.expiresDate) >= today;
+        });
 
-      // Merge, deduplicate by URL, client-side expiry safety net
-      const seen = new Set<string>();
-      const merged = [...galleryFlyers, ...dropFlyers].filter((f) => {
-        if (seen.has(f.url)) return false;
-        seen.add(f.url);
-        const expiry = f.endDate ?? f.date;
-        return !expiry || expiry >= today;
+        const mapped = filtered.map((f: any) => ({
+          url: 'https://admin.robosouthla.com' + f.image?.url,
+          title: f.title,
+          date: f.eventDate,
+          endDate: f.expiresDate,
+        }));
+
+        setFlyers(mapped);
       });
-
-      // Sort: undated first, then ascending by date
-      merged.sort((a, b) => {
-        if (!a.date && !b.date) return 0;
-        if (!a.date) return -1;
-        if (!b.date) return 1;
-        return a.date!.localeCompare(b.date!);
-      });
-
-      setFlyers(merged);
-    });
   }, []);
 
   const photos: { url: string; title: string }[] = [

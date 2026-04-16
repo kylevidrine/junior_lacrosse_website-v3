@@ -1,29 +1,36 @@
 import React, { useState, useEffect } from 'react';
 
-interface Video {
-  id: string;
-  url: string;
+const STRAPI_URL = 'https://admin.robosouthla.com';
+
+interface StrapiVideo {
+  id: number;
+  documentId: string;
   title: string;
-  created: string;
+  url: string;
+  createdAt: string;
+}
+
+interface StrapiResponse {
+  data: StrapiVideo[];
 }
 
 const Videos: React.FC = () => {
-  const [videos, setVideos] = useState<Video[]>([]);
+  const [videos, setVideos] = useState<StrapiVideo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/data/videos.json')
+    fetch(`${STRAPI_URL}/api/videos?sort=createdAt:desc`)
       .then((res) => {
         if (!res.ok) throw new Error(`Failed to load videos (${res.status})`);
         return res.json();
       })
-      .then((data: Video[]) => {
-        setVideos(data);
+      .then((json: StrapiResponse) => {
+        setVideos(json.data);
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error('[Videos] Error loading videos.json:', err);
+        console.error('[Videos] Error loading from Strapi:', err);
         setError(err.message || 'Failed to load videos.');
         setIsLoading(false);
       });
@@ -59,11 +66,11 @@ const Videos: React.FC = () => {
         ) : videos.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {videos.map((video) => (
-              <div key={video.id} className="group bg-neutral-900/50 border border-white/5 rounded-[32px] overflow-hidden hover:border-brand-gold/30 transition-all duration-500 flex flex-col">
+              <div key={video.documentId} className="group bg-neutral-900/50 border border-white/5 rounded-[32px] overflow-hidden hover:border-brand-gold/30 transition-all duration-500 flex flex-col">
                 <div className="p-6">
-                  {video.created && (
+                  {video.createdAt && (
                     <p className="text-brand-gold font-header text-sm tracking-widest mb-2 uppercase">
-                      {new Date(video.created).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                      {new Date(video.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                     </p>
                   )}
                   <h2 className="text-2xl font-header text-stone-50 uppercase tracking-tight group-hover:text-brand-gold transition-colors truncate">
