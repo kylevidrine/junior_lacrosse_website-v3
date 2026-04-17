@@ -7,11 +7,18 @@ interface Flyer {
   endDate?: string;
 }
 
+interface BandPhoto {
+  url: string;
+  title: string;
+  description: string;
+}
+
 const Gallery: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'flyers' | 'photos'>('flyers');
   const [flyers, setFlyers] = useState<Flyer[]>([]);
+  const [bandPhotos, setBandPhotos] = useState<BandPhoto[]>([]);
 
-useEffect(() => {
+  useEffect(() => {
     const today = new Date();
 
     fetch('https://admin.robosouthla.com/api/flyers?populate=*&filters[active][$eq]=true')
@@ -31,13 +38,20 @@ useEffect(() => {
 
         setFlyers(mapped);
       });
+
+    fetch('https://admin.robosouthla.com/api/band-photos?populate=*&sort=createdAt:desc')
+      .then(res => res.json())
+      .then(data => {
+        const mapped = data.data.map((p: any) => ({
+          url: 'https://admin.robosouthla.com' + p.image?.url,
+          title: p.title,
+          description: p.description,
+        }));
+        setBandPhotos(mapped);
+      });
   }, []);
 
-  const photos: { url: string; title: string }[] = [
-    { url: '/images/photos/band-members.jpg', title: 'Junior Lacrosse Band' },
-  ];
-
-  const activeImages = activeTab === 'flyers' ? flyers : photos;
+  const activeImages = activeTab === 'flyers' ? flyers : bandPhotos;
 
   return (
     <div className="animate-fade-in">

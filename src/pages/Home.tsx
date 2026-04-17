@@ -18,9 +18,9 @@ const Home: React.FC = () => {
   const [data, setData] = useState<Homepage | null>(null);
 
   useEffect(() => {
-    fetch(`${STRAPI_URL}/api/homepage?populate=*`)
+    fetch(`${STRAPI_URL}/api/homepages?populate=*&filters[artist][$eq]=Junior Lacrosse`)
       .then(res => res.json())
-      .then(json => setData(json.data));
+      .then(json => setData(json.data[0]));
   }, []);
 
   if (!data) return <div className="text-white text-center py-20">Loading...</div>;

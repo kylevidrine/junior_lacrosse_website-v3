@@ -12,7 +12,7 @@ const navLinks = [
   { name: 'Book Us', path: '/contact' },
 ];
 
-const Header: React.FC = () => {
+const Header: React.FC<{ bandName: string }> = ({ bandName }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const activeLinkClass = 'text-brand-gold scale-105';
@@ -25,7 +25,7 @@ const Header: React.FC = () => {
           <div className="flex-shrink-0">
             <Link to="/" className="group flex flex-col leading-tight">
             <span className="text-stone-50 font-header text-3xl md:text-4xl uppercase tracking-tighter group-hover:text-brand-gold transition-colors">
-              JUNIOR LACROSSE BAND
+              {bandName}
             </span>
           </Link>
           </div>

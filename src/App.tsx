@@ -9,14 +9,47 @@ import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
 import Videos from './pages/Videos';
 
+const STRAPI_URL = 'https://admin.robosouthla.com';
+const ARTIST = 'Junior Lacrosse';
+
+interface SiteData {
+  bandName: string;
+  tagline: string;
+  facebookUrl: string;
+  instagramUrl: string;
+  spotifyUrl: string;
+}
+
 const App: React.FC = () => {
+  const [siteData, setSiteData] = React.useState<SiteData>({
+    bandName: '',
+    tagline: '',
+    facebookUrl: '',
+    instagramUrl: '',
+    spotifyUrl: '',
+  });
+
+  React.useEffect(() => {
+    fetch(`${STRAPI_URL}/api/homepages?filters[artist][$eq]=${ARTIST}`)
+      .then(res => res.json())
+      .then(json => {
+        const d = json.data[0];
+        setSiteData({
+          bandName: d?.artist || '',
+          tagline: d?.tagline || '',
+          facebookUrl: d?.facebookUrl || '',
+          instagramUrl: d?.instagramUrl || '',
+          spotifyUrl: d?.spotifyUrl || '',
+        });
+      });
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-neutral-950 font-sans text-stone-50 selection:bg-emerald-500 selection:text-neutral-950">
-      {/* Elegant Background */}
       <div className="fixed inset-0 z-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-emerald-500/5 via-neutral-950 to-neutral-950 pointer-events-none"></div>
-      
-      <Header />
-      
+
+      <Header bandName={siteData.bandName} />
+
       <main className="relative z-10 flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-neutral-900/40 backdrop-blur-2xl p-6 sm:p-12 rounded-[32px] border border-white/5 shadow-2xl overflow-hidden">
           <Routes>
@@ -29,8 +62,8 @@ const App: React.FC = () => {
           </Routes>
         </div>
       </main>
-      
-      <Footer />
+
+      <Footer siteData={siteData} />
     </div>
   );
 };
