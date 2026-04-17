@@ -7,7 +7,7 @@ const Events: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('https://admin.robosouthla.com/api/events')
+    fetch('https://admin.robosouthla.com/api/events?sort=startDate:asc')
       .then((res) => {
         if (!res.ok) throw new Error(`Failed to load events (${res.status})`);
         return res.json();
@@ -25,12 +25,23 @@ const Events: React.FC = () => {
 
   const formatEventDateTime = (event: Event): string => {
     if (!event.startDate) return "TBA";
-    if (!event.endDate || event.startDate === event.endDate) {
-      return event.startDate;
-    }
-    const endTimePart = event.endDate.split(' at ')[1];
-    const startTimePart = event.startDate.replace(' at ', ' from ');
-    return `${startTimePart} - ${endTimePart}`;
+    const start = new Date(event.startDate).toLocaleString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+      timeZone: 'America/Chicago'
+    });
+    if (!event.endDate) return start;
+    const endTime = new Date(event.endDate).toLocaleString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+      timeZone: 'America/Chicago'
+    });
+    return `${start} - ${endTime}`;
   };
 
   return (
