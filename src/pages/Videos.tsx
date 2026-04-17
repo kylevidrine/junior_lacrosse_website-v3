@@ -20,7 +20,7 @@ const Videos: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`${STRAPI_URL}/api/videos?sort=createdAt:desc`)
+    fetch(`${STRAPI_URL}/api/videos?sort=created:desc`)
       .then((res) => {
         if (!res.ok) throw new Error(`Failed to load videos (${res.status})`);
         return res.json();
@@ -70,7 +70,7 @@ const Videos: React.FC = () => {
                 <div className="p-6">
                   {video.createdAt && (
                     <p className="text-brand-gold font-header text-sm tracking-widest mb-2 uppercase">
-                      {new Date(video.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                      {new Date(video.created).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                     </p>
                   )}
                   <h2 className="text-2xl font-header text-stone-50 uppercase tracking-tight group-hover:text-brand-gold transition-colors truncate">

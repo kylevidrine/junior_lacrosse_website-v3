@@ -15,18 +15,14 @@ const ARTIST = 'Junior Lacrosse';
 interface SiteData {
   bandName: string;
   tagline: string;
-  facebookUrl: string;
-  instagramUrl: string;
-  spotifyUrl: string;
+  artist: string;
 }
 
 const App: React.FC = () => {
   const [siteData, setSiteData] = React.useState<SiteData>({
     bandName: '',
     tagline: '',
-    facebookUrl: '',
-    instagramUrl: '',
-    spotifyUrl: '',
+    artist: '',
   });
 
   React.useEffect(() => {
@@ -37,9 +33,7 @@ const App: React.FC = () => {
         setSiteData({
           bandName: d?.artist || '',
           tagline: d?.tagline || '',
-          facebookUrl: d?.facebookUrl || '',
-          instagramUrl: d?.instagramUrl || '',
-          spotifyUrl: d?.spotifyUrl || '',
+          artist: d?.artist || '',
         });
       });
   }, []);
@@ -58,7 +52,7 @@ const App: React.FC = () => {
             <Route path="/events" element={<Events />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/videos" element={<Videos />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="/contact" element={<Contact artist={siteData.artist} />} />
           </Routes>
         </div>
       </main>
