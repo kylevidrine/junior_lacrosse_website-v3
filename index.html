@@ -6,8 +6,7 @@
     <title>Junior Lacrosse Band | Louisiana Swamp Pop</title>
     <meta name="description" content="Junior Lacrosse Band — Louisiana Swamp Pop, live and loud across the Gulf Coast. Book us for your next event." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
     <meta property="og:title" content="Junior Lacrosse Band" />
     <meta property="og:description" content="Official website of Junior Lacrosse Band" />
     <meta property="og:image" content="https://juniorlacrosseband.com/images/og-image.jpg" />
@@ -30,6 +29,9 @@
       if (t.textLight) root.style.setProperty('--theme-text-light', t.textLight);
       if (t.shadowPrimary) root.style.setProperty('--theme-shadow-primary', t.shadowPrimary);
       if (t.shadowSecondary) root.style.setProperty('--theme-shadow-secondary', t.shadowSecondary);
+      if (t.gradientAccent) root.style.setProperty('--theme-gradient-accent', t.gradientAccent);
+      if (t.fontHeaderUrl) { const link = document.createElement('link'); link.rel = 'stylesheet'; link.href = t.fontHeaderUrl; document.head.appendChild(link); }
+      if (t.fontBodyUrl) { const link = document.createElement('link'); link.rel = 'stylesheet'; link.href = t.fontBodyUrl; document.head.appendChild(link); }
     });
 </script>
   </head>

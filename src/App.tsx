@@ -58,7 +58,7 @@ const App: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-neutral-950 font-sans text-stone-50 selection:bg-emerald-500 selection:text-neutral-950">
-      <div className="fixed inset-0 z-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-emerald-500/5 via-neutral-950 to-neutral-950 pointer-events-none"></div>
+      <div className="fixed inset-0 z-0 pointer-events-none" style={{background: 'radial-gradient(circle at top right, var(--theme-gradient-accent, rgba(16,185,129,0.05)), transparent 60%)'}}></div>
 
       <Header bandName={siteData.bandName} />
 
