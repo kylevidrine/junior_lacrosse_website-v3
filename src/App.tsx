@@ -36,6 +36,24 @@ const App: React.FC = () => {
           artist: d?.artist || '',
         });
       });
+
+    fetch(`${STRAPI_URL}/api/themes?filters[artist][$eq]=${ARTIST}`)
+      .then(res => res.json())
+      .then(json => {
+        const t = json.data[0];
+        if (!t) return;
+        const root = document.documentElement;
+        if (t.primaryColor) root.style.setProperty('--theme-primary', t.primaryColor);
+        if (t.secondaryColor) root.style.setProperty('--theme-secondary', t.secondaryColor);
+        if (t.accentColor) root.style.setProperty('--theme-accent', t.accentColor);
+        if (t.backgroundColor) root.style.setProperty('--theme-background', t.backgroundColor);
+        if (t.surfaceColor) root.style.setProperty('--theme-surface', t.surfaceColor);
+        if (t.textLight) root.style.setProperty('--theme-text-light', t.textLight);
+        if (t.shadowPrimary) root.style.setProperty('--theme-shadow-primary', t.shadowPrimary);
+        if (t.shadowSecondary) root.style.setProperty('--theme-shadow-secondary', t.shadowSecondary);
+        if (t.fontHeader) root.style.setProperty('--font-header', t.fontHeader);
+        if (t.fontBody) root.style.setProperty('--font-sans', t.fontBody);
+      });
   }, []);
 
   return (

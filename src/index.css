@@ -5,15 +5,15 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-header: "Oswald", sans-serif;
 
-  --color-night-black: #050505;
-  --color-night-surface: #121212;
-  --color-brand-gold: #d4a039;
-  --color-brand-red: #c0392b;
-  --color-brand-cream: #fcf2e8;
-  --color-ice-white: #f8fafc;
+  --color-night-black: var(--theme-background, #050505);
+  --color-night-surface: var(--theme-surface, #121212);
+  --color-brand-gold: var(--theme-primary, #d4a039);
+  --color-brand-red: var(--theme-secondary, #c0392b);
+  --color-brand-cream: var(--theme-accent, #fcf2e8);
+  --color-ice-white: var(--theme-text-light, #f8fafc);
 
-  --shadow-brand-gold: 0 0 15px -3px rgba(212, 160, 57, 0.4);
-  --shadow-brand-red: 0 0 15px -3px rgba(192, 57, 43, 0.4);
+  --shadow-brand-gold: var(--theme-shadow-primary, 0 0 15px -3px rgba(212, 160, 57, 0.4));
+  --shadow-brand-red: var(--theme-shadow-secondary, 0 0 15px -3px rgba(192, 57, 43, 0.4));
 }
 
 body {

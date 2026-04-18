@@ -15,6 +15,23 @@
     <meta property="og:type" content="website" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <script>
+  fetch('https://admin.robosouthla.com/api/themes?filters[artist][$eq]=Junior Lacrosse')
+    .then(r => r.json())
+    .then(json => {
+      const t = json.data[0];
+      if (!t) return;
+      const root = document.documentElement;
+      if (t.primaryColor) root.style.setProperty('--theme-primary', t.primaryColor);
+      if (t.secondaryColor) root.style.setProperty('--theme-secondary', t.secondaryColor);
+      if (t.accentColor) root.style.setProperty('--theme-accent', t.accentColor);
+      if (t.backgroundColor) root.style.setProperty('--theme-background', t.backgroundColor);
+      if (t.surfaceColor) root.style.setProperty('--theme-surface', t.surfaceColor);
+      if (t.textLight) root.style.setProperty('--theme-text-light', t.textLight);
+      if (t.shadowPrimary) root.style.setProperty('--theme-shadow-primary', t.shadowPrimary);
+      if (t.shadowSecondary) root.style.setProperty('--theme-shadow-secondary', t.shadowSecondary);
+    });
+</script>
   </head>
   <body class="bg-neutral-950 text-stone-50">
     <div id="root"></div>

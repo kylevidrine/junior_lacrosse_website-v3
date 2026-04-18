@@ -21,19 +21,15 @@ const Gallery: React.FC = () => {
   useEffect(() => {
     const today = new Date();
 
-    fetch('https://admin.robosouthla.com/api/flyers?populate=*&filters[active][$eq]=true')
+    fetch('https://admin.robosouthla.com/api/flyers?populate=*&filters[active][$eq]=true&sort=eventDate:asc')
       .then(res => res.json())
       .then(data => {
-        const filtered = data.data.filter((f: any) => {
-          if (!f.expiresDate) return true;
-          return new Date(f.expiresDate) >= today;
-        });
+        const filtered = data.data;
 
         const mapped = filtered.map((f: any) => ({
           url: 'https://admin.robosouthla.com' + f.image?.url,
           title: f.title,
           date: f.eventDate,
-          endDate: f.expiresDate,
         }));
 
         setFlyers(mapped);
